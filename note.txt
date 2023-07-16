@@ -4,3 +4,11 @@ DB creating process:
     in program.cs, first registered a sqlite injection services, then at the last, call the registered
     service, it will refer connection strings in appsettings.Dev.json and call Migrate function to 
     migrate/create database, then call the 'Initialize' function to save seed data
+
+
+we can use {} to specify an object in React.tsx, it can be .css object, or anything else, like {name}
+
+use [] to dynamically define an array, we can enumerate elements, and can also do this: [...arr1, arr2]
+
+how to call a function when hit a button? 1.define the funtion in component 2.<button onClick={func}>xxx
+

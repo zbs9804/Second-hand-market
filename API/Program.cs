@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);//create a host for web server
 
 // registering services to the container.(dependency injection container), order does not matter
 
-builder.Services.AddControllers();//all controllers(in that folder) will be registered in this funciton
+builder.Services.AddControllers();//all controllers(in Controllers folder) will be registered
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -16,18 +16,25 @@ builder.Services.AddDbContext<StoreContext>(opt =>
     //don't forget to define "DefaultConnection in appsettings.Development.json, 
     //it will automatically pass configurations to here
 });
+builder.Services.AddCors();//allow cross origin services, add middleware below
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//auto-generated code: Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-//below is about middle ware, the order of these lines matters
-// app.UseHttpsRedirection();
+//the line below is about middleware, the order of these lines matters
+//app.UseHttpsRedirection();
+
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+});
 
 app.UseAuthorization();
 
