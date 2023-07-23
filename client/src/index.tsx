@@ -1,21 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './app/layout/styles.css';
-import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './app/router/Routes';
 
-//create root component, world starts here, <App/> is defined in App.tsx
+//create root component, world starts here, the program will call <App /> component whe it starts.
+//but now we are going to call router to handle what page it will load at the beginning
 //the result of render will go to the div block in the index.html
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router ={router} />
   </React.StrictMode>
 );
 

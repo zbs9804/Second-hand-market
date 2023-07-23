@@ -12,3 +12,16 @@ use [] to dynamically define an array, we can enumerate elements, and can also d
 
 how to call a function when hit a button? 1.define the funtion in component 2.<button onClick={func}>xxx
 
+How to route between different pages? use 'react router' and configure like what we did in 'router' folder
+
+
+The map() function in JavaScript is used to create a new array with the results of calling 
+a provided function on every element in the calling array.
+e.g. 
+const numbers = [1, 2, 3, 4, 5];
+const squares = numbers.map(number => number * number);
+in the abouve code, each element is the square of the corresponding element in the original numbers array
+WHEN WE NEED TO LOOPING OVER AN OBJECT ARRAY, WE ALSO NEED TO SPECIFY 'key'
+
+A Promise in JavaScript represents a value that may not be available yet, but will be resolved at 
+some point in the future, or it might be rejected. syntax: .then.catch.finally (muchlike try-catch in java)

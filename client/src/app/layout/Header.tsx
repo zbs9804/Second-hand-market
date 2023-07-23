@@ -1,14 +1,41 @@
-import { AppBar, FormControlLabel, Switch, Toolbar, Typography, styled } from "@mui/material";
+import { ShoppingCart } from "@mui/icons-material";
+import { AppBar, Badge, FormControlLabel, IconButton, List, ListItem, Switch, Toolbar, Typography, styled } from "@mui/material";
+import { NavLink } from "react-router-dom";
+import { Box } from "@mui/system";
 
 interface Props {
     darkMode: boolean;
     handleThemeChange: () => void;//should be a function that takes no arguments and returns nothing 
 }
 
-export default function Header({darkMode, handleThemeChange}: Props) {
-// 这个dark mode是典型的把父component的参数传递给子component并在里面做出改变的例子。
-// 首先在父component里定义要改变的变量及其setter，定义setter并将其传给子component，
-// 最后在子component里的组件里设计要怎么改这个变量(e.g. onClick, onChange)
+const midLinks = [
+    { title: 'catalog', path: '/catalog' },
+    { title: 'about', path: '/about' },
+    { title: 'contact', path: '/contact' },
+]//syntax: [ {obj1}, {obj2} ] meand an array of object
+
+
+const rightLinks = [
+    { title: 'login', path: '/login' },
+    { title: 'register', path: '/register' },
+]
+
+const navStyles = {
+    color: 'inherit',
+    textDecoration: 'none',
+    typography: 'h6',
+    '&:hover': {
+        color: 'grey.500'
+    },
+    '&.active': {
+        color: 'text.secondary'
+    }
+}
+
+export default function Header({ darkMode, handleThemeChange }: Props) {
+    // 这个dark mode是典型的把父component的参数传递给子component并在里面做出改变的例子。
+    // 首先在父component里定义要改变的变量及其setter，定义setter并将其传给子component，
+    // 最后在子component里的组件里设计要怎么改这个变量(e.g. onClick, onChange)
     const MaterialUISwitch = styled(Switch)(({ theme }) => ({
         width: 62,
         height: 34,
@@ -57,26 +84,67 @@ export default function Header({darkMode, handleThemeChange}: Props) {
     }));
 
     return (
+// return three elements: a Box at left, a List at middle, and a Box at right
+
         <AppBar position='static' sx={{ mb: 4 }}>
-            <Toolbar>
-                <Typography variant='h6'>
-                    Re-Store
-                </Typography>
-                
-                <FormControlLabel
-                    control={
-                        <MaterialUISwitch 
-                            checked={darkMode}
-                            onChange={handleThemeChange} 
-                            sx={{ m: 1 }} 
-                        />
-                    }
-                    label="Dark Mode"
-                />
+            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                <Box display='flex' alignItems='center'>
+                    <Typography variant='h6' component={NavLink}
+                        to='/'
+                        sx={{color:'inherit', textDecoration:'none'}}
+                    >
+                        Re-Store
+                    </Typography>
+                    <FormControlLabel
+                        control={
+                            <MaterialUISwitch
+                                checked={darkMode}
+                                onChange={handleThemeChange}
+                                sx={{ m: 1 }}
+                            />
+                        }
+                        label="Dark Mode"
+                    />
+                </Box>
+                {/* create a navigation menu in the header using 'NavLink' provided by react-router, and 
+    style buttons using 'MUI List' */}
+                <List sx={{ display: 'flex' }}>
+                    {midLinks.map(({ title, path }) => (
+                        <ListItem
+                            component={NavLink}
+                            to={path}
+                            key={path}
+                            sx={navStyles}
+                        >
+                            {title.toUpperCase()}
+                        </ListItem>
+                    ))}
+                </List>
+
+                <Box display='flex' alignItems='center'>
+                    <IconButton size='large' edge='start' color='inherit' sx={{ mr: 2 }}>
+                        <Badge badgeContent='4' color="secondary">
+                            <ShoppingCart />
+                        </Badge>
+                    </IconButton>
+
+                    <List sx={{ display: 'flex' }}>
+                        {rightLinks.map(({ title, path }) => (
+                            <ListItem
+                                component={NavLink}
+                                to={path}
+                                key={path}
+                                sx={navStyles}
+                            >
+                                {title.toUpperCase()}
+                            </ListItem>
+                        ))}
+                    </List>
+                </Box>
+
+
             </Toolbar>
-            
-
-
         </AppBar>
     )
 }

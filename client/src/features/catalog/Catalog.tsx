@@ -13,7 +13,8 @@ export default function Catalog() {//or use destructure like Catalog({products, 
       fetch('http://localhost:5164/api/products')
       .then(response => response.json())
       .then(data => setProducts(data))
-    }, [])
+    }, [])  
+
    
     return (
         <>
