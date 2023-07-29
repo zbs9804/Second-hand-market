@@ -1,12 +1,13 @@
 //this is where the entire program starts
 using API.Data;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);//create a host for web server
 
 // registering services to the container.(dependency injection container), order does not matter
 
-builder.Services.AddControllers();//all controllers(in Controllers folder) will be registered
+builder.Services.AddControllers();//ALL controllers(in Controllers folder) will be registered
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -20,6 +21,9 @@ builder.Services.AddCors();//allow cross origin services, add middleware below
 
 
 var app = builder.Build();
+
+//because it's an error hendling middleware, we are putting it at the first order
+app.UseMiddleware<ExceptionMiddleware>();
 
 //auto-generated code: Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

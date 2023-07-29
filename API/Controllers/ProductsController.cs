@@ -5,9 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]//square bracket here specifies the attribute of this class, sort of like @ in java
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
         private readonly StoreContext _context;//dbcontext from StoreContext.cs
         //naming convention: underscore_ at first represents that it's a readonly, private variable
@@ -26,7 +24,8 @@ namespace API.Controllers
         [HttpGet("{id}")]//api/products/id(1,2,3...)
         public async Task<ActionResult<Product>> GetProduct(int id)//only return specified product with the id
         {
-            return await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
+            return product == null ? NotFound() : product;
         }
     }
 }

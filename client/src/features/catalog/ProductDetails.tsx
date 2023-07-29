@@ -3,6 +3,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
+import agent from "../../app/api/agent";
+import NotFound from "../../app/errors/NotFound";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 
 export default function ProductDetails() {
     //the hook 'useParams' returns a key/value pair of URL parameters, use it to get product id in URL
@@ -10,17 +13,17 @@ export default function ProductDetails() {
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
 
-    //fetch product detail when id changes
+    //fetch product detail when mount and id changes
     useEffect(() => {
-        axios.get(`http://localhost:5164/api/products/${id}`)
-             .then(response => setProduct(response.data))
+        id && agent.Catalog.details(parseInt(id))
+             .then(response => setProduct(response))
              .catch(err => console.log(err))
              .finally(() => setLoading(false))
     }, [id])//instead of using fetch.then in chain, i use Axios
     
-    if(loading) return <h3>Loading...</h3>
+    if(loading) return <LoadingComponent message='Loading product...'/>
 
-    if(!product) return <h3>Product not found</h3>
+    if(!product) return <NotFound />
 
     return (
         <Grid container spacing={6}>
